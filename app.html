@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waypoint Math - app</title>
+<style>
+  :root { --accent:#2f5d6e; --ink:#1d2629; --paper:#f5f9fa; --soft:#e6eff1; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Georgia, 'Times New Roman', serif; background:var(--paper); color:var(--ink); line-height:1.55; padding:2rem 1.2rem; }
+  main { max-width:660px; margin:0 auto; }
+  h1 { font-size:1.8rem; color:var(--accent); }
+  .boundary { background:#fdeaea; border-left:6px solid #b03030; color:#5c1c1c; border-radius:6px; padding:1rem 1.1rem; margin:1rem 0 1.4rem; }
+  .boundary strong { display:block; margin-bottom:.3rem; }
+  .panel { background:var(--soft); border-left:5px solid var(--accent); border-radius:6px; padding:1rem 1.1rem; margin-bottom:1.1rem; }
+  h2 { font-size:1.1rem; margin-bottom:.6rem; }
+  p.note { font-size:.9rem; margin-bottom:.4rem; }
+  label { display:block; font-size:.9rem; margin:.45rem 0 .1rem; }
+  input { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #b3c8cd; border-radius:6px; background:#fff; color:var(--ink); }
+  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #b3c8cd; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; }
+  .out.err { border-color:#b03030; color:#8a1f1f; font-style:normal; }
+  footer { margin-top:1.8rem; font-size:.85rem; color:#57676b; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Waypoint Math</h1>
+  <div class="boundary">
+    <strong>Boundary: format and distance arithmetic only</strong>
+    This page converts coordinate notations and measures straight-line distance. It never judges a route or a destination - straight lines ignore cliffs, rivers, and fences.
+  </div>
+
+  <div class="panel">
+    <h2>The minutes truth</h2>
+    <p class="note">Degrees and decimal minutes (the geocache listing format) to decimal degrees - and the cost of the classic misread.</p>
+    <label for="m-deg">Degrees</label>
+    <input id="m-deg" type="number" min="-180" max="180" step="1" value="40">
+    <label for="m-min">Minutes</label>
+    <input id="m-min" type="number" min="0" max="59.999" step="0.001" value="26.767">
+    <div class="out" id="m-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The seconds truth</h2>
+    <p class="note">Degrees, minutes, seconds to decimal degrees.</p>
+    <label for="s-deg">Degrees</label>
+    <input id="s-deg" type="number" min="-180" max="180" step="1" value="40">
+    <label for="s-min">Minutes</label>
+    <input id="s-min" type="number" min="0" max="59" step="1" value="26">
+    <label for="s-sec">Seconds</label>
+    <input id="s-sec" type="number" min="0" max="59.999" step="0.001" value="46">
+    <div class="out" id="s-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The distance truth</h2>
+    <p class="note">Straight-line distance between two decimal-degree waypoints.</p>
+    <label for="d-lat1">First latitude</label>
+    <input id="d-lat1" type="number" min="-90" max="90" step="0.000001" value="32.08">
+    <label for="d-lon1">First longitude</label>
+    <input id="d-lon1" type="number" min="-180" max="180" step="0.000001" value="34.78">
+    <label for="d-lat2">Second latitude</label>
+    <input id="d-lat2" type="number" min="-90" max="90" step="0.000001" value="31.25">
+    <label for="d-lon2">Second longitude</label>
+    <input id="d-lon2" type="number" min="-180" max="180" step="0.000001" value="34.39">
+    <div class="out" id="d-out"></div>
+  </div>
+
+  <footer>Waypoint Math is exact arithmetic over coordinate formats and great-circle distance. <a href="index.html">Why it exists</a>.</footer>
+</main>
+<script src="engine.js"></script>
+<script>
+  const num = (id) => Number(document.getElementById(id).value);
+  function show(out, fn) {
+    try {
+      const text = fn();
+      out.textContent = text;
+      out.classList.remove("err");
+    } catch (e) {
+      out.textContent = e.message;
+      out.classList.add("err");
+    }
+  }
+  const mOut = document.getElementById("m-out");
+  const sOut = document.getElementById("s-out");
+  const dOut = document.getElementById("d-out");
+  function recalc() {
+    show(mOut, () => minutesTruth(num("m-deg"), num("m-min")));
+    show(sOut, () => secondsTruth(num("s-deg"), num("s-min"), num("s-sec")));
+    show(dOut, () => distanceTruth(num("d-lat1"), num("d-lon1"), num("d-lat2"), num("d-lon2")));
+  }
+  document.querySelectorAll("input").forEach((el) => {
+    el.addEventListener("input", recalc);
+    el.addEventListener("change", recalc);
+  });
+  recalc();
+</script>
+</body>
+</html>
