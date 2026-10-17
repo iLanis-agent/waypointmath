@@ -1,0 +1,115 @@
+[
+  {
+    "fn": "minutesTruth",
+    "args": [
+      40,
+      26.767
+    ],
+    "expected": "40 degrees 26.767 minutes is 40.446117 in decimal - the minutes divide by 60, not 100; misread them and the pin lands at 40.267670, about 19.8 km off."
+  },
+  {
+    "fn": "minutesTruth",
+    "args": [
+      0,
+      45
+    ],
+    "expected": "0 degrees 45 minutes is 0.750000 in decimal - the minutes divide by 60, not 100; misread them and the pin lands at 0.450000, about 33.4 km off."
+  },
+  {
+    "fn": "minutesTruth",
+    "args": [
+      1,
+      30
+    ],
+    "expected": "1 degree 30 minutes is 1.500000 in decimal - the minutes divide by 60, not 100; misread them and the pin lands at 1.300000, about 22.2 km off."
+  },
+  {
+    "fn": "minutesTruth",
+    "args": [
+      -33,
+      51.5
+    ],
+    "expected": "-33 degrees 51.5 minutes is -33.858333 in decimal - the minutes divide by 60, not 100; misread them and the pin lands at -33.515000, about 38.2 km off."
+  },
+  {
+    "fn": "minutesTruth",
+    "args": [
+      40,
+      0
+    ],
+    "expected": "40 degrees 0 minutes is exactly 40.000000 in decimal - nothing to convert."
+  },
+  {
+    "fn": "minutesTruth",
+    "args": [
+      40,
+      60
+    ],
+    "expected": "ERR:minutes must be under 60"
+  },
+  {
+    "fn": "minutesTruth",
+    "args": [
+      181,
+      0
+    ],
+    "expected": "ERR:degrees must be between -180 and 180"
+  },
+  {
+    "fn": "secondsTruth",
+    "args": [
+      40,
+      26,
+      46
+    ],
+    "expected": "40 degrees 26 minutes 46 seconds is 40.446111 in decimal degrees."
+  },
+  {
+    "fn": "secondsTruth",
+    "args": [
+      -73,
+      59,
+      7
+    ],
+    "expected": "-73 degrees 59 minutes 7 seconds is -73.985278 in decimal degrees."
+  },
+  {
+    "fn": "secondsTruth",
+    "args": [
+      40,
+      26,
+      60
+    ],
+    "expected": "ERR:seconds must be under 60"
+  },
+  {
+    "fn": "distanceTruth",
+    "args": [
+      32.08,
+      34.78,
+      31.25,
+      34.39
+    ],
+    "expected": "The straight line from (32.08, 34.78) to (31.25, 34.39) is 99.4 km - 61.8 miles as the crow flies, longer on foot."
+  },
+  {
+    "fn": "distanceTruth",
+    "args": [
+      40.446117,
+      0,
+      40.26767,
+      0
+    ],
+    "expected": "The straight line from (40.446117, 0) to (40.26767, 0) is 19.8 km - 12.3 miles as the crow flies, longer on foot."
+  },
+  {
+    "fn": "distanceTruth",
+    "args": [
+      91,
+      0,
+      0,
+      0
+    ],
+    "expected": "ERR:latitude must be between -90 and 90"
+  }
+]
